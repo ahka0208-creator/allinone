@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🛠️ iPhone 隨身百寶箱 (10合1實用工具)</title>
+    <style>
+        :root {
+            --bg-dark: #0b0f19;
+            --bg-card: #131b2e;
+            --primary: #38bdf8;
+            --primary-glow: rgba(56, 189, 248, 0.2);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #f43f5e;
+            --success: #10b981;
+            --border-color: #1e293b;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            margin: 0;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 440px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            padding-bottom: 40px;
+        }
+
+        .header {
+            text-align: center;
+        }
+        .header h2 {
+            color: var(--primary);
+            font-size: 20px;
+            margin: 0 0 4px 0;
+            text-shadow: 0 0 10px var(--primary-glow);
+        }
+        .header p {
+            color: var(--text-muted);
+            font-size: 12px;
+            margin: 0;
+        }
+
+        /* 橫向滾動工具導航列 */
+        .tools-nav {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+            scrollbar-width: none; /* Firefox */
+        }
+        .tools-nav::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+
+        .nav-chip {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .nav-chip.active {
+            background: var(--primary);
+            color: #0b0f19;
+            font-weight: bold;
+            border-color: var(--primary);
+            box-shadow: 0 2px 8px var(--primary-glow);
+        }
+
+        /* 工具面板容器 */
+        .tool-panel {
+            display: none;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .tool-panel.active {
+            display: flex;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 16px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .card h3 {
+            margin: 0;
+            font-size: 16px;
+            color: var(--primary);
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1px solid #334155;
+            background: #090d16;
+            color: #fff;
+            font-size: 14px;
+            box-sizing: border-box;
+            outline: none;
+        }
+        input:focus, select:focus { border-color: var(--primary); }
+
+        .btn {
+            background: linear-gradient(135deg, var(--primary) 0%, #0284c7 100%);
+            color: #0b0f19;
+            font-weight: bold;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 15px;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.1s;
+        }
+        .btn:active { transform: scale(0.97); }
+
+        .result-box {
+            background: rgba(56, 189, 248, 0.05);
+            border: 1px dashed rgba(56, 189, 248, 0.3);
+            border-radius: 10px;
+            padding: 12px;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255,255,255,0.03);
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h2>🛠️ iPhone 隨身百寶箱</h2>
+        <p>10合1極速實用工具，隨開隨用零廣告</p>
+    </div>
+
+    <!-- 頂部橫向滾動工具列 -->
+    <div class="tools-nav" id="toolsNav">
+        <button class="nav-chip active" onclick="switchTool(0)">1. 分帳</button>
+        <button class="nav-chip" onclick="switchTool(1)">2. 番茄鐘</button>
+        <button class="nav-chip" onclick="switchTool(2)">3. 行李清單</button>
+        <button class="nav-chip" onclick="switchTool(3)">4. 泊車提醒</button>
+        <button class="nav-chip" onclick="switchTool(4)">5. 小費稅率</button>
+        <button class="nav-chip" onclick="switchTool(5)">6. 時區對照</button>
+        <button class="nav-chip" onclick="switchTool(6)">7. 多重計時</button>
+        <button class="nav-chip" onclick="switchTool(7)">8. 電池估算</button>
+        <button class="nav-chip" onclick="switchTool(8)">9. 飲水追蹤</button>
+        <button class="nav-chip" onclick="switchTool(9)">10. QR碼</button>
+    </div>
+
+    <!-- ---------------- 工具 1：智能 AA 分帳 ---------------- -->
+    <div class="tool-panel active" id="panel-0">
+        <div class="card">
+            <h3>🧾 智能 AA 派對找數分帳</h3>
+            <input type="number" id="billTotal" placeholder="總消費金額 (HKD)">
+            <input type="number" id="billService" placeholder="加一服務費比例 (%) 預設10" value="10">
+            <input type="number" id="billPeople" placeholder="總共人數" value="2">
+            <button class="btn" onclick="calcBill()">計算每人應付金額</button>
+            <div class="result-box" id="billResult">請輸入金額計算</div>
+        </div>
+    </div>
+
+    <!-- ---------------- 工具 2：番茄鐘 ---------------- -->
+    <div class="tool-panel" id="panel-1">
+        <div class="card" style="text-align: center;">
+            <h3>🍅 25分鐘專注番茄鐘</h3>
+            <div id="pomodoroTimer" style="font-size: 42px; font-weight: bold; color: var(--primary); margin: 10px 0;">25:00</div>
+            <div style="display: flex; gap: 10px;">
+                <button class="btn" onclick="startPomodoro()">開始專注</button>
+                <button class="btn" style="background: #334155; color:#fff;" onclick="resetPomodoro()">重置</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ---------------- 工具 3：行李清單 ---------------- -->
+    <div class="tool-panel" id="panel-2">
+        <div class="card">
+            <h3>🧳 旅行行李防漏清單</h3>
+            <div style="display:flex; gap:8px;">
+                <input type="text" id="newItemText" placeholder="新增物件 (例如: 護照)">
+                <button class="btn" style="width: 80px;" onclick="addChecklistItem()">新增</button>
+            </div>
+            <div id="checklistContainer" style="display: flex; flex-direction: column; gap: 6px; margin-top: 8px;"></div>
+        </div>
+    </div>
+
+    <!-- ---------------- 工具 4：泊車提醒 ---------------- -->
+    <div class="tool-panel" id="panel-3">
+        <div class="card">
+            <h3>🅿️ 泊車咪錶到期提醒</h3>
+            <input type="text" id="parkLocation" placeholder="車位記錄 (例如: B3 042號柱)">
+            <input type="number" id="parkMinutes" placeholder="泊車時長 (分鐘, 例如 120)">
+            <button class="btn" onclick="startParkingTimer()">設定倒數計時</button>
+            <div class="result-box" id="parkResult">尚未設定泊車計時</div>
+        </div>
+    </div>
+
+    <!-- ---------------- 工具 5：小費稅率 ---------------- -->
+    <div class="tool-panel" id="panel-4">
+        <div class="card">
+            <h3>🧮 跨國小費與稅率換算</h3>
+            <input type="number" id="tipAmount" placeholder="帳單原始金額">
+            <select id="tipPreset" onchange="applyTipPreset()">
+                <option value="0">自訂 / 日本 (免小費 0%)</option>
+                <option value="10">歐洲標準 (10%)</option>
+                <option value="15">美國標準 (15%)</option>
+                <option value="18">美國熱門 (18%)</option>
+            </select>
+            <input type="number" id="tipPercent" placeholder="小費百分比 (%)" value="15">
+            <button class="btn" onclick="calcTip()">計算總結帳金額</button>
+            <div class="result-box" id="tipResult">請輸入資料</div>
+        </div>
+    </div>
+
+    <!-- ---------------- 工具 6：時區對照 ---------------- -->
+    <div class="tool-panel" id="panel-5">
+        <div class="card">
+            <h3>⏱️ 全球團隊開會時區對照</h3>
+            <p style="font-size: 12px; color: var(--text-muted); margin:0;">香港 (HKT) 對應世界主要城市時間：</p>
+            <div class="result-box" id="worldClock" style="font-family: monospace; line-height: 1.6;"></div>
+        </div>
+    </div>
+
+    <!-- ---------------- 工具 7：多重計時 ---------------- -->
+    <div class="tool-panel" id="panel-6">
+        <div class="card">
+            <h3>🍳 廚房多道菜獨立計時器</h3>
+            <input type="text" id="timerName" placeholder="菜名 (例如: 蒸魚)">
+            <input type="number" id="timerSecs" placeholder="倒數秒數 (例如: 600秒)">
+            <button class="btn" onclick="addCustomTimer()">新增計時器</button>
+            <div id="multiTimersList" style="display:flex; flex-direction:column; gap:6px; margin-top:8px;"></div>
+        </div>
+    </div>
+
+    <!-- ---------------- 工具 8：電池估算 ---------------- -->
+    <div class="tool-panel" id="panel-7">
+        <div class="card">
+            <h3>🔋 手機電量與續航估算</h3>
+            <button class="btn" onclick="checkBatteryStatus()">讀取當前手機電量</button>
+            <div class="result-box" id="batteryResult" style="margin-top:8px;">點擊上方按鈕讀取硬體數據</div>
+        </div>
+    </div>
+
+    <!-- ---------------- 工具 9：飲水追蹤 ---------------- -->
+    <div class="tool-panel" id="panel-8">
+        <div class="card" style="text-align: center;">
+            <h3>💧 每日補水進度追蹤</h3>
+            <div style="font-size: 32px; font-weight: bold; color: var(--primary);" id="waterCount">0 ml</div>
+            <p style="font-size: 12px; color: var(--text-muted);">目標: 2000 ml</p>
+            <div style="display: flex; gap: 8px;">
+                <button class="btn" onclick="addWater(250)">+250ml (一杯)</button>
+                <button class="btn" style="background: #334155; color:#fff;" onclick="resetWater()">重置</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ---------------- 工具 10：QR碼產生 ---------------- -->
+    <div class="tool-panel" id="panel-9">
+        <div class="card" style="text-align: center;">
+            <h3>🏷️ 快速 QR Code 產生器</h3>
+            <input type="text" id="qrText" placeholder="輸入網址、Wi-Fi帳密或文字" style="margin-bottom: 8px;">
+            <button class="btn" onclick="generateQRCode()">生成 QR Code</button>
+            <div id="qrCodeContainer" style="margin-top: 12px; display: flex; justify-content: center;"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 切換分頁
+    function switchTool(index) {
+        document.querySelectorAll('.nav-chip').forEach((chip, idx) => {
+            chip.classList.toggle('active', idx === index);
+        });
+        document.querySelectorAll('.tool-panel').forEach((panel, idx) => {
+            panel.classList.toggle('active', idx === index);
+        });
+    }
+
+    // 1. 分帳計算
+    function calcBill() {
+        const total = parseFloat(document.getElementById('billTotal').value) || 0;
+        const service = parseFloat(document.getElementById('billService').value) || 0;
+        const people = parseInt(document.getElementById('billPeople').value) || 1;
+        const grandTotal = total * (1 + service / 100);
+        const perPerson = grandTotal / people;
+        document.getElementById('billResult').innerHTML = `含服務費總額: <b>$${grandTotal.toFixed(2)}</b><br>每人平均應付: <b style="color:var(--primary); font-size:16px;">$${perPerson.toFixed(2)}</b>`;
+    }
+
+    // 2. 番茄鐘
+    let pTimer = null, pSeconds = 1500;
+    function startPomodoro() {
+        if (pTimer) return;
+        pTimer = setInterval(() => {
+            if (pSeconds > 0) {
+                pSeconds--;
+                let m = Math.floor(pSeconds / 60), s = pSeconds % 60;
+                document.getElementById('pomodoroTimer').innerText = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+            } else {
+                clearInterval(pTimer);
+                pTimer = null;
+                alert('🎉 25分鐘專注時間到！抖下啦！');
+            }
+        }, 1000);
+    }
+    function resetPomodoro() {
+        clearInterval(pTimer); pTimer = null; pSeconds = 1500;
+        document.getElementById('pomodoroTimer').innerText = '25:00';
+    }
+
+    // 3. 行李清單
+    let checklist = JSON.parse(localStorage.getItem('my_checklist')) || [
+        { text: '護照 / 身份證', done: false },
+        { text: '智能手機充電器', done: true },
+        { text: '外幣現金 / 信用卡', done: false }
+    ];
+    function renderChecklist() {
+        const container = document.getElementById('checklistContainer');
+        container.innerHTML = '';
+        checklist.forEach((item, idx) => {
+            container.innerHTML += `
+                <div class="checklist-item">
+                    <span style="${item.done ? 'text-decoration:line-through; color:var(--text-muted);' : ''}">${item.text}</span>
+                    <input type="checkbox" ${item.done ? 'checked' : ''} onchange="toggleCheck(${idx})" style="width:20px; height:20px;">
+                </div>
+            `;
+        });
+        localStorage.setItem('my_checklist', JSON.stringify(checklist));
+    }
+    function addChecklistItem() {
+        const input = document.getElementById('newItemText');
+        if (input.value.trim()) {
+            checklist.push({ text: input.value.trim(), done: false });
+            input.value = '';
+            renderChecklist();
+        }
+    }
+    function toggleCheck(idx) { checklist[idx].done = !checklist[idx].done; renderChecklist(); }
+    renderChecklist();
+
+    // 4. 泊車計時
+    function startParkingTimer() {
+        const loc = document.getElementById('parkLocation').value || '未知位置';
+        const mins = parseInt(document.getElementById('parkMinutes').value) || 120;
+        const endTime = Date.now() + mins * 60000;
+        document.getElementById('parkResult').innerHTML = `📍 車位: ${loc}<br>⏳ 預計到期: ${new Date(endTime).toLocaleTimeString()}`;
+    }
+
+    // 5. 小費稅率
+    function applyTipPreset() {
+        document.getElementById('tipPercent').value = document.getElementById('tipPreset').value;
+    }
+    function calcTip() {
+        const amt = parseFloat(document.getElementById('tipAmount').value) || 0;
+        const pct = parseFloat(document.getElementById('tipPercent').value) || 0;
+        const total = amt * (1 + pct / 100);
+        document.getElementById('tipResult').innerHTML = `小費比例: ${pct}%<br>總結帳金額: <b style="color:var(--primary); font-size:16px;">$${total.toFixed(2)}</b>`;
+    }
+
+    // 6. 時區對照
+    function updateWorldClock() {
+        const now = new Date();
+        const getT = (offset) => {
+            const d = new Date(now.getTime() + (offset - now.getTimezoneOffset() / 60) * 3600000);
+            return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        };
+        document.getElementById('worldClock').innerHTML = `
+            🇭🇰 香港 (HKT): ${now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}<br>
+            🇯🇵 東京 (JST): ${getT(9)}<br>
+            🇬🇧 倫敦 (GMT): ${getT(0)}<br>
+            🇺🇸 紐約 (EST): ${getT(-5)}
+        `;
+    }
+    setInterval(updateWorldClock, 1000); updateWorldClock();
+
+    // 7. 多重計時
+    function addCustomTimer() {
+        const name = document.getElementById('timerName').value || '計時項目';
+        const secs = parseInt(document.getElementById('timerSecs').value) || 60;
+        const list = document.getElementById('multiTimersList');
+        const div = document.createElement('div');
+        div.className = 'checklist-item';
+        div.innerHTML = `<span>${name}</span><b style="color:var(--primary);">${secs} 秒</b>`;
+        list.appendChild(div);
+    }
+
+    // 8. 電池估算
+    async function checkBatteryStatus() {
+        if ('getBattery' in navigator) {
+            const battery = await navigator.getBattery();
+            const level = Math.round(battery.level * 100);
+            document.getElementById('batteryResult').innerHTML = `🔋 當前電量: <b>${level}%</b><br>⚡ 狀態: ${battery.charging ? '充電中' : '使用電池中'}`;
+        } else {
+            document.getElementById('batteryResult').innerHTML = `⚠️ 此瀏覽器版本暫不支援直接讀取電池硬體 API。`;
+        }
+    }
+
+    // 9. 飲水追蹤
+    let waterTotal = parseInt(localStorage.getItem('my_water')) || 0;
+    function updateWaterUI() {
+        document.getElementById('waterCount').innerText = `${waterTotal} ml`;
+        localStorage.setItem('my_water', waterTotal);
+    }
+    function addWater(amount) { waterTotal += amount; updateWaterUI(); }
+    function resetWater() { waterTotal = 0; updateWaterUI(); }
+    updateWaterUI();
+
+    // 10. QR碼產生 (調用開源 API 快速生成)
+    function generateQRCode() {
+        const text = document.getElementById('qrText').value.trim();
+        const container = document.getElementById('qrCodeContainer');
+        if (!text) { alert('請輸入文字或網址！'); return; }
+        container.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(text)}" alt="QR Code" style="border-radius:8px;">`;
+    }
+</script>
+
+</body>
+</html>
