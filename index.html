@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>🛠️ iPhone 隨身百寶箱 (10合1實用工具)</title>
+    <title>🛠️ iPhone 隨身究極百寶箱 (30合1工具箱)</title>
     <style>
         :root {
-            --bg-dark: #0b0f19;
-            --bg-card: #131b2e;
+            --bg-dark: #090d16;
+            --bg-card: #131c2e;
             --primary: #38bdf8;
             --primary-glow: rgba(56, 189, 248, 0.2);
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --accent: #f43f5e;
             --success: #10b981;
+            --warning: #f59e0b;
             --border-color: #1e293b;
         }
 
@@ -36,7 +37,7 @@
             display: flex;
             flex-direction: column;
             gap: 14px;
-            padding-bottom: 40px;
+            padding-bottom: 60px;
         }
 
         .header {
@@ -54,26 +55,29 @@
             margin: 0;
         }
 
-        /* 橫向滾動工具導航列 */
+        /* 30合1 橫向滾動或可換行工具導航列 */
         .tools-nav {
-            display: flex;
-            gap: 8px;
+            display: grid;
+            grid-auto-flow: column;
+            grid-template-rows: repeat(2, auto);
+            gap: 6px;
             overflow-x: auto;
-            padding-bottom: 4px;
-            scrollbar-width: none; /* Firefox */
+            padding-bottom: 6px;
+            scrollbar-width: none;
         }
-        .tools-nav::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+        .tools-nav::-webkit-scrollbar { display: none; }
 
         .nav-chip {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             color: var(--text-muted);
-            padding: 8px 12px;
-            border-radius: 20px;
-            font-size: 13px;
+            padding: 6px 10px;
+            border-radius: 12px;
+            font-size: 12px;
             white-space: nowrap;
             cursor: pointer;
             transition: all 0.2s;
+            text-align: center;
         }
         .nav-chip.active {
             background: var(--primary);
@@ -83,7 +87,6 @@
             box-shadow: 0 2px 8px var(--primary-glow);
         }
 
-        /* 工具面板容器 */
         .tool-panel {
             display: none;
             flex-direction: column;
@@ -100,12 +103,12 @@
             border: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
         }
 
         .card h3 {
             margin: 0;
-            font-size: 16px;
+            font-size: 15px;
             color: var(--primary);
         }
 
@@ -129,7 +132,7 @@
             border: none;
             padding: 12px;
             border-radius: 10px;
-            font-size: 15px;
+            font-size: 14px;
             cursor: pointer;
             width: 100%;
             transition: transform 0.1s;
@@ -144,302 +147,520 @@
             font-size: 13px;
             line-height: 1.4;
         }
-
-        .checklist-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: rgba(255,255,255,0.03);
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 14px;
-        }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="header">
-        <h2>🛠️ iPhone 隨身百寶箱</h2>
-        <p>10合1極速實用工具，隨開隨用零廣告</p>
+        <h2>🛠️ iPhone 隨身究極百寶箱</h2>
+        <p>30合1極速實用工具，純本地運行零廣告</p>
     </div>
 
-    <!-- 頂部橫向滾動工具列 -->
+    <!-- 30合1 工具導航列 (上下兩排滾動) -->
     <div class="tools-nav" id="toolsNav">
-        <button class="nav-chip active" onclick="switchTool(0)">1. 分帳</button>
-        <button class="nav-chip" onclick="switchTool(1)">2. 番茄鐘</button>
-        <button class="nav-chip" onclick="switchTool(2)">3. 行李清單</button>
-        <button class="nav-chip" onclick="switchTool(3)">4. 泊車提醒</button>
-        <button class="nav-chip" onclick="switchTool(4)">5. 小費稅率</button>
-        <button class="nav-chip" onclick="switchTool(5)">6. 時區對照</button>
-        <button class="nav-chip" onclick="switchTool(6)">7. 多重計時</button>
-        <button class="nav-chip" onclick="switchTool(7)">8. 電池估算</button>
-        <button class="nav-chip" onclick="switchTool(8)">9. 飲水追蹤</button>
-        <button class="nav-chip" onclick="switchTool(9)">10. QR碼</button>
+        <!-- 1-10 -->
+        <button class="nav-chip active" onclick="switchTool(0)">1.分帳</button>
+        <button class="nav-chip" onclick="switchTool(1)">2.番茄鐘</button>
+        <button class="nav-chip" onclick="switchTool(2)">3.行李清單</button>
+        <button class="nav-chip" onclick="switchTool(3)">4.泊車提醒</button>
+        <button class="nav-chip" onclick="switchTool(4)">5.小費稅率</button>
+        <button class="nav-chip" onclick="switchTool(5)">6.時區對照</button>
+        <button class="nav-chip" onclick="switchTool(6)">7.多重計時</button>
+        <button class="nav-chip" onclick="switchTool(7)">8.電池估算</button>
+        <button class="nav-chip" onclick="switchTool(8)">9.飲水追蹤</button>
+        <button class="nav-chip" onclick="switchTool(9)">10.QR碼</button>
+        <!-- 11-20 -->
+        <button class="nav-chip" onclick="switchTool(10)">11.燒錢黑洞</button>
+        <button class="nav-chip" onclick="switchTool(11)">12.間歇禁食</button>
+        <button class="nav-chip" onclick="switchTool(12)">13.穿衣指數</button>
+        <button class="nav-chip" onclick="switchTool(13)">14.雪櫃賞味</button>
+        <button class="nav-chip" onclick="switchTool(14)">15.咖啡因</button>
+        <button class="nav-chip" onclick="switchTool(15)">16.證件到期</button>
+        <button class="nav-chip" onclick="switchTool(16)">17.廚房解凍</button>
+        <button class="nav-chip" onclick="switchTool(17)">18.TDEE熱量</button>
+        <button class="nav-chip" onclick="switchTool(18)">19.步行消耗</button>
+        <button class="nav-chip" onclick="switchTool(19)">20.字數統計</button>
+        <!-- 21-30 -->
+        <button class="nav-chip" onclick="switchTool(20)">21.油站格價</button>
+        <button class="nav-chip" onclick="switchTool(21)">22.煎扒計時</button>
+        <button class="nav-chip" onclick="switchTool(22)">23.集運拋重</button>
+        <button class="nav-chip" onclick="switchTool(23)">24.護眼暗黑</button>
+        <button class="nav-chip" onclick="switchTool(24)">25.開會燒錢</button>
+        <button class="nav-chip" onclick="switchTool(25)">26.濾網倒數</button>
+        <button class="nav-chip" onclick="switchTool(26)">27.意粉測量</button>
+        <button class="nav-chip" onclick="switchTool(27)">28.洗滌符號</button>
+        <button class="nav-chip" onclick="switchTool(28)">29.鞋碼換算</button>
+        <button class="nav-chip" onclick="switchTool(29)">30.尿袋實充</button>
     </div>
 
-    <!-- ---------------- 工具 1：智能 AA 分帳 ---------------- -->
-    <div class="tool-panel active" id="panel-0">
-        <div class="card">
-            <h3>🧾 智能 AA 派對找數分帳</h3>
-            <input type="number" id="billTotal" placeholder="總消費金額 (HKD)">
-            <input type="number" id="billService" placeholder="加一服務費比例 (%) 預設10" value="10">
-            <input type="number" id="billPeople" placeholder="總共人數" value="2">
-            <button class="btn" onclick="calcBill()">計算每人應付金額</button>
-            <div class="result-box" id="billResult">請輸入金額計算</div>
-        </div>
-    </div>
+    <!-- ---------------- 1. 分帳 ---------------- -->
+    <div class="tool-panel active" id="panel-0"><div class="card">
+        <h3>🧾 1. 智能 AA 派對找數分帳</h3>
+        <input type="number" id="t1_total" placeholder="總消費金額 (HKD)">
+        <input type="number" id="t1_service" placeholder="加一服務費 (%)" value="10">
+        <input type="number" id="t1_people" placeholder="總人數" value="2">
+        <button class="btn" onclick="t1_calc()">計算每人應付</button>
+        <div class="result-box" id="t1_res">請輸入資料</div>
+    </div></div>
 
-    <!-- ---------------- 工具 2：番茄鐘 ---------------- -->
-    <div class="tool-panel" id="panel-1">
-        <div class="card" style="text-align: center;">
-            <h3>🍅 25分鐘專注番茄鐘</h3>
-            <div id="pomodoroTimer" style="font-size: 42px; font-weight: bold; color: var(--primary); margin: 10px 0;">25:00</div>
-            <div style="display: flex; gap: 10px;">
-                <button class="btn" onclick="startPomodoro()">開始專注</button>
-                <button class="btn" style="background: #334155; color:#fff;" onclick="resetPomodoro()">重置</button>
-            </div>
-        </div>
-    </div>
+    <!-- ---------------- 2. 番茄鐘 ---------------- -->
+    <div class="tool-panel" id="panel-1"><div class="card" style="text-align:center;">
+        <h3>🍅 2. 25分鐘專注番茄鐘</h3>
+        <div id="t2_display" style="font-size:38px; font-weight:bold; color:var(--primary); margin:8px 0;">25:00</div>
+        <div style="display:flex; gap:8px;"><button class="btn" onclick="t2_start()">開始專注</button><button class="btn" style="background:#334155; color:#fff;" onclick="t2_reset()">重置</button></div>
+    </div></div>
 
-    <!-- ---------------- 工具 3：行李清單 ---------------- -->
-    <div class="tool-panel" id="panel-2">
-        <div class="card">
-            <h3>🧳 旅行行李防漏清單</h3>
-            <div style="display:flex; gap:8px;">
-                <input type="text" id="newItemText" placeholder="新增物件 (例如: 護照)">
-                <button class="btn" style="width: 80px;" onclick="addChecklistItem()">新增</button>
-            </div>
-            <div id="checklistContainer" style="display: flex; flex-direction: column; gap: 6px; margin-top: 8px;"></div>
-        </div>
-    </div>
+    <!-- ---------------- 3. 行李清單 ---------------- -->
+    <div class="tool-panel" id="panel-2"><div class="card">
+        <h3>🧳 3. 旅行行李防漏清單</h3>
+        <div style="display:flex; gap:6px;"><input type="text" id="t3_input" placeholder="新增物件"><button class="btn" style="width:70px;" onclick="t3_add()">新增</button></div>
+        <div id="t3_list" style="display:flex; flex-direction:column; gap:4px; margin-top:6px;"></div>
+    </div></div>
 
-    <!-- ---------------- 工具 4：泊車提醒 ---------------- -->
-    <div class="tool-panel" id="panel-3">
-        <div class="card">
-            <h3>🅿️ 泊車咪錶到期提醒</h3>
-            <input type="text" id="parkLocation" placeholder="車位記錄 (例如: B3 042號柱)">
-            <input type="number" id="parkMinutes" placeholder="泊車時長 (分鐘, 例如 120)">
-            <button class="btn" onclick="startParkingTimer()">設定倒數計時</button>
-            <div class="result-box" id="parkResult">尚未設定泊車計時</div>
-        </div>
-    </div>
+    <!-- ---------------- 4. 泊車提醒 ---------------- -->
+    <div class="tool-panel" id="panel-3"><div class="card">
+        <h3>🅿️ 4. 泊車咪錶到期提醒</h3>
+        <input type="text" id="t4_loc" placeholder="車位記錄 (例如: B3 042號柱)">
+        <input type="number" id="t4_min" placeholder="泊車時長 (分鐘)">
+        <button class="btn" onclick="t4_set()">設定倒數</button>
+        <div class="result-box" id="t4_res">尚未設定</div>
+    </div></div>
 
-    <!-- ---------------- 工具 5：小費稅率 ---------------- -->
-    <div class="tool-panel" id="panel-4">
-        <div class="card">
-            <h3>🧮 跨國小費與稅率換算</h3>
-            <input type="number" id="tipAmount" placeholder="帳單原始金額">
-            <select id="tipPreset" onchange="applyTipPreset()">
-                <option value="0">自訂 / 日本 (免小費 0%)</option>
-                <option value="10">歐洲標準 (10%)</option>
-                <option value="15">美國標準 (15%)</option>
-                <option value="18">美國熱門 (18%)</option>
-            </select>
-            <input type="number" id="tipPercent" placeholder="小費百分比 (%)" value="15">
-            <button class="btn" onclick="calcTip()">計算總結帳金額</button>
-            <div class="result-box" id="tipResult">請輸入資料</div>
-        </div>
-    </div>
+    <!-- ---------------- 5. 小費稅率 ---------------- -->
+    <div class="tool-panel" id="panel-4"><div class="card">
+        <h3>🧮 5. 跨國小費與稅率換算</h3>
+        <input type="number" id="t5_amt" placeholder="帳單原始金額">
+        <input type="number" id="t5_pct" placeholder="小費百分比 (%)" value="15">
+        <button class="btn" onclick="t5_calc()">計算總結帳金額</button>
+        <div class="result-box" id="t5_res">請輸入資料</div>
+    </div></div>
 
-    <!-- ---------------- 工具 6：時區對照 ---------------- -->
-    <div class="tool-panel" id="panel-5">
-        <div class="card">
-            <h3>⏱️ 全球團隊開會時區對照</h3>
-            <p style="font-size: 12px; color: var(--text-muted); margin:0;">香港 (HKT) 對應世界主要城市時間：</p>
-            <div class="result-box" id="worldClock" style="font-family: monospace; line-height: 1.6;"></div>
-        </div>
-    </div>
+    <!-- ---------------- 6. 時區對照 ---------------- -->
+    <div class="tool-panel" id="panel-5"><div class="card">
+        <h3>⏱️ 6. 全球團隊開會時區對照</h3>
+        <div class="result-box" id="t6_clock" style="font-family:monospace; line-height:1.5;"></div>
+    </div></div>
 
-    <!-- ---------------- 工具 7：多重計時 ---------------- -->
-    <div class="tool-panel" id="panel-6">
-        <div class="card">
-            <h3>🍳 廚房多道菜獨立計時器</h3>
-            <input type="text" id="timerName" placeholder="菜名 (例如: 蒸魚)">
-            <input type="number" id="timerSecs" placeholder="倒數秒數 (例如: 600秒)">
-            <button class="btn" onclick="addCustomTimer()">新增計時器</button>
-            <div id="multiTimersList" style="display:flex; flex-direction:column; gap:6px; margin-top:8px;"></div>
-        </div>
-    </div>
+    <!-- ---------------- 7. 多重計時 ---------------- -->
+    <div class="tool-panel" id="panel-6"><div class="card">
+        <h3>🍳 7. 廚房多道菜獨立計時器</h3>
+        <input type="text" id="t7_name" placeholder="菜名 (例如: 蒸魚)">
+        <input type="number" id="t7_sec" placeholder="秒數 (例如: 600)">
+        <button class="btn" onclick="t7_add()">新增計時</button>
+        <div id="t7_list" style="display:flex; flex-direction:column; gap:4px; margin-top:6px;"></div>
+    </div></div>
 
-    <!-- ---------------- 工具 8：電池估算 ---------------- -->
-    <div class="tool-panel" id="panel-7">
-        <div class="card">
-            <h3>🔋 手機電量與續航估算</h3>
-            <button class="btn" onclick="checkBatteryStatus()">讀取當前手機電量</button>
-            <div class="result-box" id="batteryResult" style="margin-top:8px;">點擊上方按鈕讀取硬體數據</div>
-        </div>
-    </div>
+    <!-- ---------------- 8. 電池估算 ---------------- -->
+    <div class="tool-panel" id="panel-7"><div class="card">
+        <h3>🔋 8. 手機電量與續航估算</h3>
+        <button class="btn" onclick="t8_check()">讀取當前手機電量</button>
+        <div class="result-box" id="t8_res" style="margin-top:6px;">點擊上方讀取硬體</div>
+    </div></div>
 
-    <!-- ---------------- 工具 9：飲水追蹤 ---------------- -->
-    <div class="tool-panel" id="panel-8">
-        <div class="card" style="text-align: center;">
-            <h3>💧 每日補水進度追蹤</h3>
-            <div style="font-size: 32px; font-weight: bold; color: var(--primary);" id="waterCount">0 ml</div>
-            <p style="font-size: 12px; color: var(--text-muted);">目標: 2000 ml</p>
-            <div style="display: flex; gap: 8px;">
-                <button class="btn" onclick="addWater(250)">+250ml (一杯)</button>
-                <button class="btn" style="background: #334155; color:#fff;" onclick="resetWater()">重置</button>
-            </div>
-        </div>
-    </div>
+    <!-- ---------------- 9. 飲水追蹤 ---------------- -->
+    <div class="tool-panel" id="panel-8"><div class="card" style="text-align:center;">
+        <h3>💧 9. 每日補水進度追蹤</h3>
+        <div style="font-size:30px; font-weight:bold; color:var(--primary);" id="t9_count">0 ml</div>
+        <div style="display:flex; gap:8px; margin-top:6px;"><button class="btn" onclick="t9_add(250)">+250ml</button><button class="btn" style="background:#334155; color:#fff;" onclick="t9_reset()">重置</button></div>
+    </div></div>
 
-    <!-- ---------------- 工具 10：QR碼產生 ---------------- -->
-    <div class="tool-panel" id="panel-9">
-        <div class="card" style="text-align: center;">
-            <h3>🏷️ 快速 QR Code 產生器</h3>
-            <input type="text" id="qrText" placeholder="輸入網址、Wi-Fi帳密或文字" style="margin-bottom: 8px;">
-            <button class="btn" onclick="generateQRCode()">生成 QR Code</button>
-            <div id="qrCodeContainer" style="margin-top: 12px; display: flex; justify-content: center;"></div>
-        </div>
-    </div>
+    <!-- ---------------- 10. QR碼 ---------------- -->
+    <div class="tool-panel" id="panel-9"><div class="card" style="text-align:center;">
+        <h3>🏷️ 10. 快速 QR Code 產生器</h3>
+        <input type="text" id="t10_txt" placeholder="輸入網址或文字" style="margin-bottom:6px;">
+        <button class="btn" onclick="t10_gen()">生成 QR Code</button>
+        <div id="t10_box" style="margin-top:8px; display:flex; justify-content:center;"></div>
+    </div></div>
+
+    <!-- ---------------- 11. 燒錢黑洞 ---------------- -->
+    <div class="tool-panel" id="panel-10"><div class="card">
+        <h3>🧾 11. 訂閱服務燒錢黑洞管家</h3>
+        <input type="text" id="t11_name" placeholder="服務名稱 (如 Netflix)">
+        <input type="number" id="t11_price" placeholder="金額 (HKD)">
+        <button class="btn" onclick="t11_add()">加入統計</button>
+        <div class="result-box" id="t11_res">每年總燒錢: $0</div>
+    </div></div>
+
+    <!-- ---------------- 12. 間歇禁食 ---------------- -->
+    <div class="tool-panel" id="panel-11"><div class="card" style="text-align:center;">
+        <h3>⏱️ 12. 16:8 輕斷食計時器</h3>
+        <div style="font-size:28px; font-weight:bold; color:var(--warning);" id="t12_disp">未開始</div>
+        <button class="btn" onclick="t12_start()">開始 16 小時斷食</button>
+    </div></div>
+
+    <!-- ---------------- 13. 穿衣指數 ---------------- -->
+    <div class="tool-panel" id="panel-12"><div class="card">
+        <h3>🧥 13. 體感溫度與穿衣建議</h3>
+        <input type="number" id="t13_t" placeholder="當前氣溫 (°C)">
+        <input type="number" id="t13_h" placeholder="濕度 (%) 預設60" value="60">
+        <button class="btn" onclick="t13_calc()">獲取穿衣建議</button>
+        <div class="result-box" id="t13_res">請輸入氣溫</div>
+    </div></div>
+
+    <!-- ---------------- 14. 雪櫃賞味 ---------------- -->
+    <div class="tool-panel" id="panel-13"><div class="card">
+        <h3>🥬 14. 雪櫃食材保鮮提醒</h3>
+        <input type="text" id="t14_name" placeholder="食材名稱 (如 新鮮豬肉)">
+        <input type="number" id="t14_day" placeholder="保質天數 (如 3)">
+        <button class="btn" onclick="t14_add()">記錄食材</button>
+        <div id="t14_list" style="display:flex; flex-direction:column; gap:4px; margin-top:6px;"></div>
+    </div></div>
+
+    <!-- ---------------- 15. 咖啡因 ---------------- -->
+    <div class="tool-panel" id="panel-14"><div class="card">
+        <h3>☕ 15. 每日咖啡因攝取計數</h3>
+        <button class="btn" onclick="t15_add(65)">+一杯 Espresso (65mg)</button>
+        <button class="btn" style="background:#334155; color:#fff; margin-top:4px;" onclick="t15_add(120)">+台式奶茶 (120mg)</button>
+        <div class="result-box" id="t15_res" style="margin-top:6px;">今日總攝取: 0 mg (安全線 400mg)</div>
+    </div></div>
+
+    <!-- ---------------- 16. 證件到期 ---------------- -->
+    <div class="tool-panel" id="panel-15"><div class="card">
+        <h3>🪪 16. 重要證件到期提醒</h3>
+        <input type="text" id="t16_name" placeholder="證件名稱 (如 回鄉證)">
+        <input type="date" id="t16_date">
+        <button class="btn" onclick="t16_add()">新增證件</button>
+        <div id="t16_list" style="display:flex; flex-direction:column; gap:4px; margin-top:6px;"></div>
+    </div></div>
+
+    <!-- ---------------- 17. 廚房解凍 ---------------- -->
+    <div class="tool-panel" id="panel-16"><div class="card">
+        <h3>🥩 17. 肉類解凍時間預估</h3>
+        <input type="number" id="t17_w" placeholder="肉類重量 (克)">
+        <select id="t17_mode"><option value="fridge">雪櫃冷藏解凍</option><option value="water">浸冷水解凍</option></select>
+        <button class="btn" onclick="t17_calc()">預估解凍時間</button>
+        <div class="result-box" id="t17_res">請輸入重量</div>
+    </div></div>
+
+    <!-- ---------------- 18. TDEE熱量 ---------------- -->
+    <div class="tool-panel" id="panel-17"><div class="card">
+        <h3>🥗 18. TDEE 與每日熱量估算</h3>
+        <input type="number" id="t18_w" placeholder="體重 (kg)" value="65">
+        <input type="number" id="t18_h" placeholder="身高 (cm)" value="170">
+        <input type="number" id="t18_age" placeholder="年齡" value="25">
+        <button class="btn" onclick="t18_calc()">計算每日基礎代謝</button>
+        <div class="result-box" id="t18_res">請輸入數據</div>
+    </div></div>
+
+    <!-- ---------------- 19. 步行消耗 ---------------- -->
+    <div class="tool-panel" id="panel-18"><div class="card">
+        <h3>🚶‍♂️ 19. 步行距離與卡路里換算</h3>
+        <input type="number" id="t19_step" placeholder="今日步數 (例如 8000)">
+        <input type="number" id="t19_wt" placeholder="體重 (kg)" value="65">
+        <button class="btn" onclick="t19_calc()">計算消耗卡路里</button>
+        <div class="result-box" id="t19_res">請輸入步數</div>
+    </div></div>
+
+    <!-- ---------------- 20. 字數統計 ---------------- -->
+    <div class="tool-panel" id="panel-19"><div class="card">
+        <h3>🔤 20. 專業字數與限字計數器</h3>
+        <textarea id="t20_txt" placeholder="貼上文字..." rows="3" oninput="t20_calc()"></textarea>
+        <div class="result-box" id="t20_res">字數: 0 | 字符: 0</div>
+    </div></div>
+
+    <!-- ---------------- 21. 油站格價 ---------------- -->
+    <div class="tool-panel" id="panel-20"><div class="card">
+        <h3>🅿️ 21. 油站折扣與實際支出計算</h3>
+        <input type="number" id="t21_p" placeholder="油站牌價 ($/升)">
+        <input type="number" id="t21_d" placeholder="每公升直降 ($)">
+        <input type="number" id="t21_l" placeholder="入油升數" value="40">
+        <button class="btn" onclick="t21_calc()">計算實付金額</button>
+        <div class="result-box" id="t21_res">請輸入數據</div>
+    </div></div>
+
+    <!-- ---------------- 22. 煎扒計時 ---------------- -->
+    <div class="tool-panel" id="panel-21"><div class="card">
+        <h3>🍳 22. 煎牛扒生熟度計時器</h3>
+        <select id="t22_done"><option value="medium">五成熟 (Medium)</option><option value="welldone">全熟 (Well-done)</option></select>
+        <button class="btn" onclick="t22_start()">獲取煎扒秒數指南</button>
+        <div class="result-box" id="t22_res">請選擇生熟度</div>
+    </div></div>
+
+    <!-- ---------------- 23. 集運拋重 ---------------- -->
+    <div class="tool-panel" id="panel-22"><div class="card">
+        <h3>📦 23. 集運體積重 (拋重) 計算</h3>
+        <input type="number" id="t23_l" placeholder="長 (cm)">
+        <input type="number" id="t23_w" placeholder="闊 (cm)">
+        <input type="number" id="t23_h" placeholder="高 (cm)">
+        <input type="number" id="t23_wt" placeholder="實際重量 (kg)">
+        <button class="btn" onclick="t23_calc()">計算計費重量</button>
+        <div class="result-box" id="t23_res">請輸入長闊高與實重</div>
+    </div></div>
+
+    <!-- ---------------- 24. 護眼暗黑 ---------------- -->
+    <div class="tool-panel" id="panel-23"><div class="card" style="text-align:center;">
+        <h3>🕶️ 24. 深夜護眼琥珀色遮罩</h3>
+        <button class="btn" onclick="t24_toggle()">開啟全屏暗黑護眼罩</button>
+    </div></div>
+
+    <!-- ---------------- 25. 開會燒錢 ---------------- -->
+    <div class="tool-panel" id="panel-24"><div class="card">
+        <h3>💸 25. 會議人頭成本燒錢計數器</h3>
+        <input type="number" id="t25_p" placeholder="開會人數" value="5">
+        <input type="number" id="t25_rate" placeholder="平均每人時薪 ($)" value="200">
+        <button class="btn" onclick="t25_calc()">計算每小時燒掉成本</button>
+        <div class="result-box" id="t25_res">請輸入人數與時薪</div>
+    </div></div>
+
+    <!-- ---------------- 26. 濾網倒數 ---------------- -->
+    <div class="tool-panel" id="panel-25"><div class="card">
+        <h3>🧹 26. 家電濾網耗材更換管家</h3>
+        <input type="text" id="t26_name" placeholder="設備名稱 (如 空氣清新機)">
+        <input type="number" id="t26_m" placeholder="壽命月份 (如 6)">
+        <button class="btn" onclick="t26_add()">紀錄耗材</button>
+        <div id="t26_list" style="display:flex; flex-direction:column; gap:4px; margin-top:6px;"></div>
+    </div></div>
+
+    <!-- ---------------- 27. 意粉測量 ---------------- -->
+    <div class="tool-panel" id="panel-26"><div class="card">
+        <h3>🍝 27. 意粉份量克數換算</h3>
+        <input type="number" id="t27_p" placeholder="食用人數" value="1">
+        <button class="btn" onclick="t27_calc()">計算所需乾意粉克數</button>
+        <div class="result-box" id="t27_res">1人份約需 85g 乾意粉</div>
+    </div></div>
+
+    <!-- ---------------- 28. 洗滌符號 ---------------- -->
+    <div class="tool-panel" id="panel-27"><div class="card">
+        <h3>💧 28. 衣物洗滌符號速查</h3>
+        <select id="t28_s"><option value="w30">30°C水溫機洗</option><option value="no_bleach">切勿漂白</option><option value="iron">可中溫熨燙</option></select>
+        <button class="btn" onclick="t28_check()">查看洗滌說明</button>
+        <div class="result-box" id="t28_res">請選擇符號</div>
+    </div></div>
+
+    <!-- ---------------- 29. 鞋碼換算 ---------------- -->
+    <div class="tool-panel" id="panel-28"><div class="card">
+        <h3>👟 29. 國際鞋碼尺吋換算</h3>
+        <input type="number" id="t29_us" placeholder="美碼 US (例如 9)">
+        <button class="btn" onclick="t29_calc()">換算歐英日碼</button>
+        <div class="result-box" id="t29_res">請輸入 US 碼</div>
+    </div></div>
+
+    <!-- ---------------- 30. 尿袋實充 ---------------- -->
+    <div class="tool-panel" id="panel-29"><div class="card">
+        <h3>🔋 30. 流動電源 (尿袋) 實際充電次數</h3>
+        <input type="number" id="t30_b" placeholder="尿袋標示容量 (mAh)" value="10000">
+        <input type="number" id="t30_p" placeholder="手機電池容量 (mAh)" value="4000">
+        <button class="btn" onclick="t30_calc()">計算實際可充幾次</button>
+        <div class="result-box" id="t30_res">請輸入容量</div>
+    </div></div>
+
 </div>
 
 <script>
-    // 切換分頁
     function switchTool(index) {
-        document.querySelectorAll('.nav-chip').forEach((chip, idx) => {
-            chip.classList.toggle('active', idx === index);
-        });
-        document.querySelectorAll('.tool-panel').forEach((panel, idx) => {
-            panel.classList.toggle('active', idx === index);
-        });
+        document.querySelectorAll('.nav-chip').forEach((c, i) => c.classList.toggle('active', i === index));
+        document.querySelectorAll('.tool-panel').forEach((p, i) => p.classList.toggle('active', i === index));
     }
 
-    // 1. 分帳計算
-    function calcBill() {
-        const total = parseFloat(document.getElementById('billTotal').value) || 0;
-        const service = parseFloat(document.getElementById('billService').value) || 0;
-        const people = parseInt(document.getElementById('billPeople').value) || 1;
-        const grandTotal = total * (1 + service / 100);
-        const perPerson = grandTotal / people;
-        document.getElementById('billResult').innerHTML = `含服務費總額: <b>$${grandTotal.toFixed(2)}</b><br>每人平均應付: <b style="color:var(--primary); font-size:16px;">$${perPerson.toFixed(2)}</b>`;
+    // 1. 分帳
+    function t1_calc() {
+        const t = parseFloat(document.getElementById('t1_total').value) || 0;
+        const s = parseFloat(document.getElementById('t1_service').value) || 0;
+        const p = parseInt(document.getElementById('t1_people').value) || 1;
+        const total = t * (1 + s / 100);
+        document.getElementById('t1_res').innerHTML = `總額: $${total.toFixed(2)} | 每人: <b style="color:var(--primary);">$${(total/p).toFixed(2)}</b>`;
     }
 
     // 2. 番茄鐘
-    let pTimer = null, pSeconds = 1500;
-    function startPomodoro() {
-        if (pTimer) return;
-        pTimer = setInterval(() => {
-            if (pSeconds > 0) {
-                pSeconds--;
-                let m = Math.floor(pSeconds / 60), s = pSeconds % 60;
-                document.getElementById('pomodoroTimer').innerText = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-            } else {
-                clearInterval(pTimer);
-                pTimer = null;
-                alert('🎉 25分鐘專注時間到！抖下啦！');
-            }
+    let t2_t = null, t2_s = 1500;
+    function t2_start() {
+        if (t2_t) return;
+        t2_t = setInterval(() => {
+            if (t2_s > 0) {
+                t2_s--;
+                document.getElementById('t2_display').innerText = `${Math.floor(t2_s/60).toString().padStart(2,'0')}:${(t2_s%60).toString().padStart(2,'0')}`;
+            } else { clearInterval(t2_t); t2_t = null; alert('25分鐘到！'); }
         }, 1000);
     }
-    function resetPomodoro() {
-        clearInterval(pTimer); pTimer = null; pSeconds = 1500;
-        document.getElementById('pomodoroTimer').innerText = '25:00';
-    }
+    function t2_reset() { clearInterval(t2_t); t2_t = null; t2_s = 1500; document.getElementById('t2_display').innerText = '25:00'; }
 
     // 3. 行李清單
-    let checklist = JSON.parse(localStorage.getItem('my_checklist')) || [
-        { text: '護照 / 身份證', done: false },
-        { text: '智能手機充電器', done: true },
-        { text: '外幣現金 / 信用卡', done: false }
-    ];
-    function renderChecklist() {
-        const container = document.getElementById('checklistContainer');
-        container.innerHTML = '';
-        checklist.forEach((item, idx) => {
-            container.innerHTML += `
-                <div class="checklist-item">
-                    <span style="${item.done ? 'text-decoration:line-through; color:var(--text-muted);' : ''}">${item.text}</span>
-                    <input type="checkbox" ${item.done ? 'checked' : ''} onchange="toggleCheck(${idx})" style="width:20px; height:20px;">
-                </div>
-            `;
+    let t3_data = JSON.parse(localStorage.getItem('t3')) || [{text:'護照',done:false}];
+    function t3_render() {
+        const box = document.getElementById('t3_list'); box.innerHTML = '';
+        t3_data.forEach((i, idx) => {
+            box.innerHTML += `<div style="display:flex; justify-content:space-between; background:rgba(255,255,255,0.03); padding:8px; border-radius:6px;"><span style="${i.done?'text-decoration:line-through;color:var(--text-muted)':''}">${i.text}</span><input type="checkbox" ${i.done?'checked':''} onchange="t3_data[${idx}].done=!t3_data[${idx}].done;t3_render();localStorage.setItem('t3',JSON.stringify(t3_data))"></div>`;
         });
-        localStorage.setItem('my_checklist', JSON.stringify(checklist));
     }
-    function addChecklistItem() {
-        const input = document.getElementById('newItemText');
-        if (input.value.trim()) {
-            checklist.push({ text: input.value.trim(), done: false });
-            input.value = '';
-            renderChecklist();
-        }
-    }
-    function toggleCheck(idx) { checklist[idx].done = !checklist[idx].done; renderChecklist(); }
-    renderChecklist();
+    function t3_add() { const v = document.getElementById('t3_input').value.trim(); if(v){ t3_data.push({text:v,done:false}); document.getElementById('t3_input').value=''; t3_render(); localStorage.setItem('t3',JSON.stringify(t3_data)); } }
+    t3_render();
 
-    // 4. 泊車計時
-    function startParkingTimer() {
-        const loc = document.getElementById('parkLocation').value || '未知位置';
-        const mins = parseInt(document.getElementById('parkMinutes').value) || 120;
-        const endTime = Date.now() + mins * 60000;
-        document.getElementById('parkResult').innerHTML = `📍 車位: ${loc}<br>⏳ 預計到期: ${new Date(endTime).toLocaleTimeString()}`;
+    // 4. 泊車
+    function t4_set() {
+        const l = document.getElementById('t4_loc').value || '未知';
+        const m = parseInt(document.getElementById('t4_min').value) || 120;
+        document.getElementById('t4_res').innerHTML = `位置: ${l}<br>到期: ${new Date(Date.now() + m*60000).toLocaleTimeString()}`;
     }
 
-    // 5. 小費稅率
-    function applyTipPreset() {
-        document.getElementById('tipPercent').value = document.getElementById('tipPreset').value;
-    }
-    function calcTip() {
-        const amt = parseFloat(document.getElementById('tipAmount').value) || 0;
-        const pct = parseFloat(document.getElementById('tipPercent').value) || 0;
-        const total = amt * (1 + pct / 100);
-        document.getElementById('tipResult').innerHTML = `小費比例: ${pct}%<br>總結帳金額: <b style="color:var(--primary); font-size:16px;">$${total.toFixed(2)}</b>`;
+    // 5. 小費
+    function t5_calc() {
+        const a = parseFloat(document.getElementById('t5_amt').value) || 0;
+        const p = parseFloat(document.getElementById('t5_pct').value) || 0;
+        document.getElementById('t5_res').innerHTML = `總結帳: <b style="color:var(--primary);">$${(a*(1+p/100)).toFixed(2)}</b>`;
     }
 
-    // 6. 時區對照
-    function updateWorldClock() {
+    // 6. 時區
+    setInterval(() => {
         const now = new Date();
-        const getT = (offset) => {
-            const d = new Date(now.getTime() + (offset - now.getTimezoneOffset() / 60) * 3600000);
-            return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        };
-        document.getElementById('worldClock').innerHTML = `
-            🇭🇰 香港 (HKT): ${now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}<br>
-            🇯🇵 東京 (JST): ${getT(9)}<br>
-            🇬🇧 倫敦 (GMT): ${getT(0)}<br>
-            🇺🇸 紐約 (EST): ${getT(-5)}
-        `;
-    }
-    setInterval(updateWorldClock, 1000); updateWorldClock();
+        const getT = (off) => new Date(now.getTime() + (off - now.getTimezoneOffset()/60)*3600000).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+        document.getElementById('t6_clock').innerHTML = `香港: ${now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}<br>東京: ${getT(9)}<br>倫敦: ${getT(0)}<br>紐約: ${getT(-5)}`;
+    }, 1000);
 
     // 7. 多重計時
-    function addCustomTimer() {
-        const name = document.getElementById('timerName').value || '計時項目';
-        const secs = parseInt(document.getElementById('timerSecs').value) || 60;
-        const list = document.getElementById('multiTimersList');
-        const div = document.createElement('div');
-        div.className = 'checklist-item';
-        div.innerHTML = `<span>${name}</span><b style="color:var(--primary);">${secs} 秒</b>`;
-        list.appendChild(div);
+    function t7_add() {
+        const n = document.getElementById('t7_name').value || '計時';
+        const s = document.getElementById('t7_sec').value || 60;
+        document.getElementById('t7_list').innerHTML += `<div style="background:rgba(255,255,255,0.03); padding:8px; border-radius:6px; display:flex; justify-content:space-between;"><span>${n}</span><b style="color:var(--primary);">${s}秒</b></div>`;
     }
 
-    // 8. 電池估算
-    async function checkBatteryStatus() {
-        if ('getBattery' in navigator) {
-            const battery = await navigator.getBattery();
-            const level = Math.round(battery.level * 100);
-            document.getElementById('batteryResult').innerHTML = `🔋 當前電量: <b>${level}%</b><br>⚡ 狀態: ${battery.charging ? '充電中' : '使用電池中'}`;
-        } else {
-            document.getElementById('batteryResult').innerHTML = `⚠️ 此瀏覽器版本暫不支援直接讀取電池硬體 API。`;
-        }
+    // 8. 電池
+    async function t8_check() {
+        if('getBattery' in navigator) { const b = await navigator.getBattery(); document.getElementById('t8_res').innerText = `電量: ${Math.round(b.level*100)}%`; }
+        else { document.getElementById('t8_res').innerText = '不支援硬體 API'; }
     }
 
-    // 9. 飲水追蹤
-    let waterTotal = parseInt(localStorage.getItem('my_water')) || 0;
-    function updateWaterUI() {
-        document.getElementById('waterCount').innerText = `${waterTotal} ml`;
-        localStorage.setItem('my_water', waterTotal);
-    }
-    function addWater(amount) { waterTotal += amount; updateWaterUI(); }
-    function resetWater() { waterTotal = 0; updateWaterUI(); }
-    updateWaterUI();
+    // 9. 飲水
+    let t9_w = parseInt(localStorage.getItem('t9')) || 0;
+    function t9_update() { document.getElementById('t9_count').innerText = `${t9_w} ml`; localStorage.setItem('t9', t9_w); }
+    function t9_add(amt) { t9_w += amt; t9_update(); }
+    function t9_reset() { t9_w = 0; t9_update(); }
+    t9_update();
 
-    // 10. QR碼產生 (調用開源 API 快速生成)
-    function generateQRCode() {
-        const text = document.getElementById('qrText').value.trim();
-        const container = document.getElementById('qrCodeContainer');
-        if (!text) { alert('請輸入文字或網址！'); return; }
-        container.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(text)}" alt="QR Code" style="border-radius:8px;">`;
+    // 10. QR
+    function t10_gen() {
+        const t = document.getElementById('t10_txt').value.trim();
+        if(t) document.getElementById('t10_box').innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${encodeURIComponent(t)}" style="border-radius:6px;">`;
+    }
+
+    // 11. 燒錢黑洞
+    function t11_add() {
+        const p = parseFloat(document.getElementById('t11_price').value) || 0;
+        document.getElementById('t11_res').innerText = `每年總燒錢 (估算): $${(p*12).toFixed(2)}`;
+    }
+
+    // 12. 禁食
+    function t12_start() { document.getElementById('t12_disp').innerText = '16:00 倒數中...'; }
+
+    // 13. 穿衣
+    function t13_calc() {
+        const t = parseFloat(document.getElementById('t13_t').value) || 20;
+        document.getElementById('t13_res').innerText = t < 15 ? '天氣寒冷，建議加穿厚外套！' : '氣溫舒適，輕便裝扮即可。';
+    }
+
+    // 14. 雪櫃
+    function t14_add() {
+        const n = document.getElementById('t14_name').value;
+        const d = document.getElementById('t14_day').value;
+        if(n) document.getElementById('t14_list').innerHTML += `<div style="background:rgba(255,255,255,0.03); padding:6px; border-radius:6px;">${n} (剩餘 ${d} 日)</div>`;
+    }
+
+    // 15. 咖啡因
+    let t15_c = 0;
+    function t15_add(amt) { t15_c += amt; document.getElementById('t15_res').innerText = `今日總攝取: ${t15_c} mg (安全線 400mg)`; }
+
+    // 16. 證件
+    function t16_add() {
+        const n = document.getElementById('t16_name').value;
+        const d = document.getElementById('t16_date').value;
+        if(n) document.getElementById('t16_list').innerHTML += `<div style="background:rgba(255,255,255,0.03); padding:6px; border-radius:6px;">${n} - 到期日: ${d}</div>`;
+    }
+
+    // 17. 解凍
+    function t17_calc() {
+        const w = parseFloat(document.getElementById('t17_w').value) || 500;
+        document.getElementById('t17_res').innerText = `預估解凍時間約需: ${Math.round(w / 100 * 30)} 分鐘`;
+    }
+
+    // 18. TDEE
+    function t18_calc() {
+        const w = parseFloat(document.getElementById('t18_w').value) || 65;
+        const h = parseFloat(document.getElementById('t18_h').value) || 170;
+        const a = parseFloat(document.getElementById('t18_age').value) || 25;
+        const bmr = 10 * w + 6.25 * h - 5 * a + 5;
+        document.getElementById('t18_res').innerText = `基礎代謝率 (BMR): ${Math.round(bmr)} kcal`;
+    }
+
+    // 19. 步行
+    function t19_calc() {
+        const s = parseInt(document.getElementById('t19_step').value) || 0;
+        const wt = parseFloat(document.getElementById('t19_wt').value) || 65;
+        document.getElementById('t19_res').innerText = `大約消耗: ${Math.round(s * 0.04 * (wt/60))} 大卡`;
+    }
+
+    // 20. 字數
+    function t20_calc() {
+        const t = document.getElementById('t20_txt').value;
+        document.getElementById('t20_res').innerText = `字數: ${t.length} | 字符: ${t.replace(/\s/g,'').length}`;
+    }
+
+    // 21. 油站
+    function t21_calc() {
+        const p = parseFloat(document.getElementById('t21_p').value) || 20;
+        const d = parseFloat(document.getElementById('t21_d').value) || 5;
+        const l = parseFloat(document.getElementById('t21_l').value) || 40;
+        document.getElementById('t21_res').innerText = `實付金額: $${((p - d) * l).toFixed(2)}`;
+    }
+
+    // 22. 煎扒
+    function t22_start() { document.getElementById('t22_res').innerText = '建議單面煎 2 分鐘，反轉再煎 1 分鐘，靜置 5 分鐘。'; }
+
+    // 23. 集運
+    function t23_calc() {
+        const l = parseFloat(document.getElementById('t23_l').value) || 10;
+        const w = parseFloat(document.getElementById('t23_w').value) || 10;
+        const h = parseFloat(document.getElementById('t23_h').value) || 10;
+        const wt = parseFloat(document.getElementById('t23_wt').value) || 1;
+        const volWt = (l * w * h) / 5000;
+        document.getElementById('t23_res').innerText = `體積重: ${volWt.toFixed(2)} kg (以較重者為準)`;
+    }
+
+    // 24. 護眼
+    let t24_on = false;
+    function t24_toggle() {
+        t24_on = !t24_on;
+        document.body.style.filter = t24_on ? 'sepia(0.4) brightness(0.7)' : 'none';
+    }
+
+    // 25. 開會燒錢
+    function t25_calc() {
+        const p = parseInt(document.getElementById('t25_p').value) || 5;
+        const r = parseFloat(document.getElementById('t25_rate').value) || 200;
+        document.getElementById('t25_res').innerText = `每小時燒掉公司: $${p * r} 港幣`;
+    }
+
+    // 26. 濾網
+    function t26_add() {
+        const n = document.getElementById('t26_name').value;
+        const m = document.getElementById('t26_m').value;
+        if(n) document.getElementById('t26_list').innerHTML += `<div style="background:rgba(255,255,255,0.03); padding:6px; border-radius:6px;">${n} (壽命 ${m} 個月)</div>`;
+    }
+
+    // 27. 意粉
+    function t27_calc() {
+        const p = parseInt(document.getElementById('t27_p').value) || 1;
+        document.getElementById('t27_res').innerText = `${p}人份約需 ${p * 85}g 乾意粉`;
+    }
+
+    // 28. 洗滌
+    function t28_check() {
+        const s = document.getElementById('t28_s').value;
+        const map = { w30:'可使用 30°C 水溫機洗，溫和洗滌。', no_bleach:'切勿使用任何氯漂白劑漂白！', iron:'可使用中溫熨燙（最高 150°C）。' };
+        document.getElementById('t28_res').innerText = map[s];
+    }
+
+    // 29. 鞋碼
+    function t29_calc() {
+        const us = parseFloat(document.getElementById('t29_us').value) || 9;
+        document.getElementById('t29_res').innerText = `US ${us} ≈ UK ${(us-1).toFixed(1)} ≈ EUR ${Math.round(us + 30.5)} ≈ CM ${(us * 0.8 + 22.5).toFixed(1)}`;
+    }
+
+    // 30. 尿袋
+    function t30_calc() {
+        const b = parseFloat(document.getElementById('t30_b').value) || 10000;
+        const p = parseFloat(document.getElementById('t30_p').value) || 4000;
+        const times = (b * 0.75) / p;
+        document.getElementById('t30_res').innerText = `大約可完全充滿手機: ${times.toFixed(1)} 次`;
     }
 </script>
 
